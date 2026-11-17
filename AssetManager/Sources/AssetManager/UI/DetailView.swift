@@ -4,7 +4,7 @@ import AppKit
 struct DetailView: View {
     weak var controller: MenuBarController?
     @State private var snap = SystemSnapshot()
-    @State private var procs: [ProcessInfo] = []
+    @State private var procs: [ProcessSample] = []
     @State private var timer: Timer?
 
     var body: some View {
@@ -92,7 +92,7 @@ struct DetailView: View {
 }
 
 private struct ProcessRow: View {
-    let p: ProcessInfo
+    let p: ProcessSample
     let onAction: (ProcessAction) -> Void
 
     var body: some View {

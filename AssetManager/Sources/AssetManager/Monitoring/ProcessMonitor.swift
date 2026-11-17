@@ -38,7 +38,7 @@ private struct ProcTaskInfo {
     var pti_priority: Int32 = 0
 }
 
-struct ProcessInfo: Identifiable {
+struct ProcessSample: Identifiable {
     var id: pid_t { pid }
     let pid: pid_t
     let name: String
@@ -65,10 +65,10 @@ final class ProcessMonitor {
         logicalCoreCount = Double(max(count, 1))
     }
 
-    func snapshot(top: Int = 30) -> [ProcessInfo] {
+    func snapshot(top: Int = 30) -> [ProcessSample] {
         let pids = listAllPids()
         let now = Date().timeIntervalSince1970
-        var results: [ProcessInfo] = []
+        var results: [ProcessSample] = []
         results.reserveCapacity(pids.count)
         var newPrev: [pid_t: PrevSample] = [:]
 
@@ -95,7 +95,7 @@ final class ProcessMonitor {
             let meta = metaCache[pid] ?? loadMeta(pid: pid)
             metaCache[pid] = meta
 
-            results.append(ProcessInfo(
+            results.append(ProcessSample(
                 pid: pid,
                 name: meta.name,
                 path: meta.path,

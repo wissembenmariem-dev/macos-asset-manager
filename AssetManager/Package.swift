@@ -14,6 +14,11 @@ let package = Package(
                 .linkedFramework("IOKit"),
                 .linkedFramework("Foundation")
             ]
+        ),
+        .testTarget(
+            name: "AssetManagerTests",
+            dependencies: ["AssetManager"],
+            path: "Tests/AssetManagerTests"
         )
     ]
 )

@@ -8,7 +8,7 @@ final class MenuBarController: NSObject {
     private let ruleEngine = RuleEngine()
     private var detailWindow: NSWindow?
     private var timer: DispatchSourceTimer?
-    private var lastProcesses: [ProcessInfo] = []
+    private var lastProcesses: [ProcessSample] = []
     private var lastSnap: SystemSnapshot = SystemSnapshot()
     private var alertedPids: Set<pid_t> = []
 
@@ -66,7 +66,7 @@ final class MenuBarController: NSObject {
         }
     }
 
-    private func handleFlagged(pids: [pid_t], processes: [ProcessInfo]) {
+    private func handleFlagged(pids: [pid_t], processes: [ProcessSample]) {
         for pid in pids where !alertedPids.contains(pid) {
             guard let p = processes.first(where: { $0.pid == pid }) else { continue }
             alertedPids.insert(pid)
@@ -77,7 +77,7 @@ final class MenuBarController: NSObject {
         alertedPids = alertedPids.intersection(stillFlagged)
     }
 
-    private func postNotification(_ p: ProcessInfo) {
+    private func postNotification(_ p: ProcessSample) {
         let n = NSUserNotification()
         n.title = "Runaway process detected"
         n.subtitle = p.name
@@ -167,7 +167,7 @@ final class MenuBarController: NSObject {
         }
     }
 
-    private func buildProcessSubmenu(for p: ProcessInfo) -> NSMenu {
+    private func buildProcessSubmenu(for p: ProcessSample) -> NSMenu {
         let m = NSMenu()
         m.autoenablesItems = false
 
@@ -265,7 +265,7 @@ final class MenuBarController: NSObject {
     }
 
     func currentSnapshot() -> SystemSnapshot { lastSnap }
-    func currentProcesses() -> [ProcessInfo] { lastProcesses }
+    func currentProcesses() -> [ProcessSample] { lastProcesses }
 }
 
 extension MenuBarController: NSMenuDelegate {

@@ -1,0 +1,7 @@
+.build/
+AssetManager/.build/
+.swiftpm/
+.DS_Store
+*.app
+.env
+.env.*
